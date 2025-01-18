@@ -22,7 +22,7 @@ class Program(QWidget):
             qp.begin(self)
             self.draw(qp)
             qp.end()
-            self.flag = False
+        self.flag = False
 
     def draw(self, qp):
         qp.setBrush(QColor(255, 255, 0))
