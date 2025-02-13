@@ -1,52 +1,26 @@
 import sys
-import random
+import sqlite3
 from PyQt6.QtWidgets import QWidget, QApplication
-from PyQt6.QtGui import QPainter, QColor
-from PyQt6 import QtCore, QtWidgets
+from PyQt6 import uic
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.setEnabled(True)
-        Form.resize(500, 500)
-        self.btn = QtWidgets.QPushButton(parent=Form)
-        self.btn.setGeometry(QtCore.QRect(10, 10, 481, 28))
-        self.btn.setObjectName("btn")
-
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
-        _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.btn.setText(_translate("Form", "Push me"))
-
-
-class Program(Ui_Form, QWidget):
+class Program(QWidget):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
-
+        uic.loadUi('UI.ui', self)
         self.btn.clicked.connect(self.click)
-        self.flag = False
+        self.num = 0
 
     def click(self):
-        self.flag = True
-        self.update()
-
-    def paintEvent(self, event):
-        if self.flag:
-            qp = QPainter()
-            qp.begin(self)
-            self.draw(qp)
-            qp.end()
-        self.flag = False
-
-    def draw(self, qp):
-        num = random.randint(10, 400)
-        qp.setBrush(QColor(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255)))
-        qp.drawEllipse(250 - num // 2, 250 - num // 2, num, num)
+        if self.num < 5:
+            self.num += 1
+        else:
+            self.num = 1
+        con = sqlite3.connect('coffee.sqlite')
+        cur = con.cursor()
+        res = cur.execute(f'''SELECT * FROM coffees WHERE id == {self.num}''').fetchall()
+        self.textBrowser.setText(
+            f'<b>{res[0][0]}: {res[0][1]}, {res[0][2]}, {res[0][3]}, {res[0][4]}, {res[0][5]}, {res[0][6]}<b>')
 
 
 if __name__ == '__main__':

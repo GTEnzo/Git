@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>500</height>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,11 +22,21 @@
      <x>10</x>
      <y>10</y>
      <width>481</width>
-     <height>28</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
     <string>Push me</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>481</width>
+     <height>192</height>
+    </rect>
    </property>
   </widget>
  </widget>
