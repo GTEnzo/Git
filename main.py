@@ -1,19 +1,20 @@
 import sys
 import sqlite3
-from PyQt6 import uic
+from ui_main import Ui_MainWindow
+from ui_addEditCoffeeForm import Ui_Form
 from PyQt6.QtWidgets import QMainWindow, QApplication, QTableWidgetItem, QDialog, QLineEdit, QPushButton
 
 
-class CoffeeApp(QMainWindow):
+class CoffeeApp(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.load()
         self.addButton.clicked.connect(self.add)
         self.tableWidget.itemDoubleClicked.connect(self.edit)
 
     def load(self):
-        con = sqlite3.connect('coffee.sqlite')
+        con = sqlite3.connect('release/data/coffee.sqlite')
         cur = con.cursor()
         cur.execute("SELECT * FROM coffee")
         rows = cur.fetchall()
@@ -52,11 +53,11 @@ class CoffeeApp(QMainWindow):
             self.load()
 
 
-class AddEditCoffeeDialog(QDialog):
+class AddEditCoffeeDialog(QDialog, Ui_Form):
     def __init__(self, parent=None, coffee_id=None, name='', roast_level='', ground='', taste_description='', price='',
                  package_size=''):
         super().__init__(parent)
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
 
         self.parent = parent
         self.coffee_id = coffee_id
@@ -87,7 +88,7 @@ class AddEditCoffeeDialog(QDialog):
         price = self.price_input.text()
         package_size = self.package_size_input.text()
 
-        con = sqlite3.connect('coffee.sqlite')
+        con = sqlite3.connect('release/data/coffee.sqlite')
         cur = con.cursor()
         if self.coffee_id:
             cur.execute(
