@@ -14,7 +14,7 @@ class CoffeeApp(QMainWindow, Ui_MainWindow):
         self.tableWidget.itemDoubleClicked.connect(self.edit)
 
     def load(self):
-        con = sqlite3.connect('release/data/coffee.sqlite')
+        con = sqlite3.connect('data/coffee.sqlite')
         cur = con.cursor()
         cur.execute("SELECT * FROM coffee")
         rows = cur.fetchall()
@@ -88,7 +88,7 @@ class AddEditCoffeeDialog(QDialog, Ui_Form):
         price = self.price_input.text()
         package_size = self.package_size_input.text()
 
-        con = sqlite3.connect('release/data/coffee.sqlite')
+        con = sqlite3.connect('data/coffee.sqlite')
         cur = con.cursor()
         if self.coffee_id:
             cur.execute(
